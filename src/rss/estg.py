@@ -18,7 +18,7 @@ class ESTG:
         """
         self.bcn = bcn
         self.Z = Z
-        self.P = defaultdict(set)
+        self.P = defaultdict(set) # a dictionary whose each value is a set
         self.S = defaultdict(set)
         self._build()
 
