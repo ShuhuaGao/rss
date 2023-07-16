@@ -2,6 +2,7 @@
 """
 
 import numpy as np
+from collections.abc import Iterable
 
 
 class BCN:
@@ -31,3 +32,34 @@ class BCN:
         Col_i = Blk_M_j[i - 1]
         return Col_i
 
+    def step_set(self, i: int, j: int) -> set[int]:
+        """Compute the one-step reachable set ``R_1``
+
+        Args:
+            i (int): state
+            j (int): control
+
+        Returns:
+            set[int]: all possible succeeding states caused by random disturbances
+        """
+        ss = set()
+        for k in range(1, self.Q + 1):
+            s = self.step(i, j, k)
+            ss.add(s)
+        return ss
+    
+    def step_set_from_set(self, i_set: Iterable[int], j: int) -> set[int]:
+        """Compute one-step reachable set for a set `i_set`
+
+        Args:
+            i_set (Iterable[int]): a set of source states
+            j (int): control
+
+        Returns:
+            set[int]: all possible succeeding states from `i_set` caused by random disturbances
+        """
+        res = set()
+        for i in i_set:
+            ss = self.step_set(i, j)
+            res.update(ss)  # union in place
+        return res

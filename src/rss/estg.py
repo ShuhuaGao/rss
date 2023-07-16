@@ -32,6 +32,39 @@ class ESTG:
                     self.S[(i, j)].add(x_new)
                     self.P[x_new] .add((i, j))
             
+    def compute_LRCIS(self) -> set[int]:
+        """Calculate the LRCIS for a target set `Z`, which has been used to construct the ESTG.
+
+        Returns:
+            set[int]: the LRCIS, i.e., a set of states
+        
+        Warning: this method will change the ESTG `self` by deleting edges
+        """  # noqa: E501
+        if isinstance(self.Z, set):
+            Z = self.Z
+        else:
+            Z = set(self.Z)
+        R1Z = set()
+        for j in range(1, self.bcn.M + 1):
+            R1Z.update(self.bcn.step_set_from_set(Z, j))
+        D0 = R1Z - Z
+        D = set()
+        while not D0:   # D0: D_k, D1: D_{k+1}
+            D1 = set()  # the next set
+            for x̄ in D0:  # x̄ represents x′ here because Python does not allow \prime 
+                for (i, j) in self.P[x̄]:
+                    if i not in D:
+                        # delete the edge in both S and P
+                        self.S[i].discard((i, j))
+                        self.P[(i, j)].discard(i)
+                        if not self.S[i]:  # empty 
+                            D1.add(i)
+            D.update(D1)
+            D0 = D1
+        return Z - D
+    
+
+
 
 
     
