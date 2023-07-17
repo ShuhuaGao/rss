@@ -69,5 +69,5 @@ class BCN:
         res = set()
         for i in i_set:
             ss = self.step_set(i, j)
-            res.update(ss)  # union in place
+            res |= ss  # union in place
         return res

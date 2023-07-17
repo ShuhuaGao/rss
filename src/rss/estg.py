@@ -46,7 +46,8 @@ class ESTG:
             Z = set(self.Z)
         R1Z = set()
         for j in range(1, self.bcn.M + 1):
-            R1Z.update(self.bcn.step_set_from_set(Z, j))
+            # union update in place
+            R1Z |= self.bcn.step_set_from_set(Z, j)
         D0 = R1Z - Z
         D = set()
         while not D0:   # D0: D_k, D1: D_{k+1}
@@ -59,7 +60,7 @@ class ESTG:
                         self.P[(i, j)].discard(i)
                         if not self.S[i]:  # empty 
                             D1.add(i)
-            D.update(D1)
+            D |= D1
             D0 = D1
         return Z - D
     

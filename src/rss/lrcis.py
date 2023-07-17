@@ -23,7 +23,7 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
     P, S = Gz.P, Gz.S
     R1Z = set()
     for j in range(1, bcn.M + 1):
-        R1Z.update(bcn.step_set_from_set(Z, j))
+        R1Z |= bcn.step_set_from_set(Z, j)
     D0 = R1Z - Z
     D = set()
     while D0:   # D0: D_k, D1: D_{k+1}
@@ -37,6 +37,6 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
                     P[(i, j)].discard(i)
                     if not S[i]:  # empty 
                         D1.add(i)
-        D.update(D1)
+        D |= D1
         D0 = D1
     return Z - D
