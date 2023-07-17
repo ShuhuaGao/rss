@@ -26,5 +26,7 @@ end = time.time()
 print("Time (ESTG + LRCIS) (s): ", end - start)
 
 # validate results with Julia
+IcZ_sorted = sorted(list(LRCIS))
+print(IcZ_sorted[0],  IcZ_sorted[44], IcZ_sorted[88], IcZ_sorted[-1], IcZ_sorted[-2])
 
 

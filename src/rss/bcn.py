@@ -7,6 +7,14 @@ from collections.abc import Iterable
 
 class BCN:
     def __init__(self, L: np.ndarray, q: int, m: int, n: int) -> None:
+        """Create a BCN
+
+        Args:
+            L (np.ndarray): state transition matrix (a logical matrix in vector form)
+            q (int): number of disturbance variables
+            m (int): number of control variables    
+            n (int): number of state variables
+        """
         self.Q = 2 ** q
         self.M = 2 ** m
         self.N = 2 ** n
