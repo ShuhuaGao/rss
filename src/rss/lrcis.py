@@ -28,11 +28,11 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
     D = set()
     while D0:   # D0: D_k, D1: D_{k+1}
         # print("D0 len: ", len(D0))
-        D1 = set()  # the next set
+        D1 = set()  # the next set #TODO
         for x̄ in D0:  # x̄ represents x′ here because Python does not allow \prime 
             for (i, j) in P[x̄]:
                 if i not in D:
-                    # delete the edge in both S and P
+                    # delete the edge i -> bij in both S and P
                     S[i].discard((i, j))
                     P[(i, j)].discard(i)
                     if not S[i]:  # empty 
