@@ -26,9 +26,10 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
         R1Z |= bcn.step_set_from_set(Z, j)
     D0 = R1Z - Z
     D = set()
+    D1 = set()  # the next set
     while D0:   # D0: D_k, D1: D_{k+1}
         # print("D0 len: ", len(D0))
-        D1 = set()  # the next set #TODO
+        D1.clear()
         for x̄ in D0:  # x̄ represents x′ here because Python does not allow \prime 
             for (i, j) in P[x̄]:
                 if i not in D:
@@ -38,5 +39,5 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
                     if not S[i]:  # empty 
                         D1.add(i)
         D |= D1
-        D0 = D1
+        D0, D1 = D1, D0
     return Z - D
