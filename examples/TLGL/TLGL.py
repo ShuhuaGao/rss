@@ -17,7 +17,7 @@ bcn = BCN(net["L"], int(np.log2(net["Q"])), int(np.log2(net["M"])), int(np.log2(
 print("Solving LRCIS...")
 start = time.time()
 estg = ESTG(bcn, Z)
-LRCIS = compute_LRCIS(estg)
+LRCIS, _, _ = compute_LRCIS(estg)
 end = time.time()
 t1 = end - start
 print("Time (ESTG + LRCIS) (s): ", t1)
@@ -31,7 +31,7 @@ print("Solving min-time rss...")
 start = time.time()
 # construct an ESTG for all states in ΔN
 G = ESTG(bcn, range(1, bcn.N + 1))
-Fs, U = compute_min_time_control(G, LRCIS)
+Fs, U2 = compute_min_time_control(G, LRCIS)
 print("Time (ESTG + LRCIS + min-time RSS) (s): ", time.time() - start + t1)
 print("Size of Ω: ", sum(len(Fk) for Fk in Fs))
 print("Largest T* except ∞: ", len(Fs) - 1)

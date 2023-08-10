@@ -2,16 +2,20 @@
 """
 from .estg import ESTG
 from .bcn import BCN
+import copy
+from collections import defaultdict
 
 
-def compute_LRCIS(Gz: ESTG) -> set[int]:
+def compute_LRCIS(Gz: ESTG) -> tuple[set[int], list[set], dict[int, set[int]]]:
     """Compute LRCIS using `Gz`
 
     Args:
         Gz (ESTG): an ESTG constructed for a target set `Gz.Z`
 
     Returns:
-        set[int]: the LRCIS, i.e., a set of states
+        the LRCIS,
+        the list of Dk sets,
+        U1
         
     WARN: this method will change the ESTG `Gz` by deleting edges
     """
@@ -26,6 +30,7 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
         R1Z |= bcn.step_set_from_set(Z, j)
     D0 = R1Z - Z
     D = set()
+    Ds = [copy.copy(D0)]  # collect all Dk's
     D1 = set()  # the next set
     while D0:   # D0: D_k, D1: D_{k+1}
         # print("D0 len: ", len(D0))
@@ -39,5 +44,12 @@ def compute_LRCIS(Gz: ESTG) -> set[int]:
                     if not S[i]:  # empty 
                         D1.add(i)
         D |= D1
+        Ds.append(copy.copy(D1))
         D0, D1 = D1, D0
-    return Z - D
+            
+    IcZ = Z - D 
+    U1: dict[int, set[int]] = defaultdict(set)
+    for x in IcZ:
+        for (i, j) in S[x]:
+            U1[i].add(j)  # i = x here
+    return IcZ, Ds, U1

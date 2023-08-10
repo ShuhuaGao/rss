@@ -3,6 +3,8 @@
 
 import numpy as np
 from collections.abc import Iterable
+from .assr import compute_ASSR
+from collections.abc import Callable
 
 
 class BCN:
@@ -20,6 +22,22 @@ class BCN:
         self.N = 2 ** n
         assert len(L) == self.Q * self.M * self.N
         self.L = L
+
+    @classmethod
+    def from_Boolean_functions(cls, fs: list[Callable], m: int, q: int) -> 'BCN':
+        """
+        Create an instance of `ClassName` from a list of Boolean functions.
+
+        Args:
+            fs: A list of Callable objects representing Boolean functions.
+            m: An integer representing the number of inputs.
+            q: An integer representing the number of disturbances.
+
+        Returns:
+            An instance of `BCN`.
+        """
+        L = compute_ASSR(fs, m, q)
+        return cls(L, q, m, len(fs))
 
     def step(self, i: int, j: int, k: int) -> int:
         """Compute state transition in one step

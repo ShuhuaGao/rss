@@ -17,7 +17,7 @@ def compute_min_time_control(G: ESTG, IcZ: set[int]) -> tuple[list[set[int]], di
     Returns:
         tuple[list[set[int]], dict[int, list[int]]]: two returned values
         - Fs, a list containing sets F0, F1, F2 ⋯
-        - U with U[x] collecting the controls for state x if x in Ω
+        - U2 with U2[x] collecting the controls for state x if x in Ω
 
     WARN: this method will change the ESTG `G` by deleting edges
     """
